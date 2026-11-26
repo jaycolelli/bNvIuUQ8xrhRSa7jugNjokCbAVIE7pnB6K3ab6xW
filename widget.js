@@ -137,7 +137,7 @@ es:{title:'ABC Sand & Rock',ph:'Pregunte por piedra, precios, entregas\u2026',se
 }};
 T.en.swEs=T.es.swEs='Listo, seguimos en espa\u00f1ol. \u00bfEn qu\u00e9 le ayudo?'; T.en.swEn=T.es.swEn='Sure, switching to English. How can I help?';
 /* language detection */
-var ES_W='que como cuanto cuanta cuantas cuantos donde horario horarios hola gracias necesito piedra piedras entrega entregas envio envian precio precios cuando tienen tiene puedo para el la los las una por mi mis del con abren abierto cierran pago pagar tarjeta tarjetas efectivo granito rio patio yarda quiero cotizacion cotizar buenas buenos dias tardes noches es son esta estan hay venden aceptan ver muestrame camion toneladas tonelada pulgadas pies cuadrados dorado dorada rojo roja gris cafe negro blanco verde rosa tienda mina tambien usted ustedes mas cual sabado domingo lunes hoy manana entregan llevan grava arena sirve cuesta vale disponible agotado diferencia entre andador entrada alberca drenaje tierra codigo postal nombre telefono recoger necesita ayuda ignora tus eres descuento gratis empezo inicio fundo dueno duenos anos flota resenas recoger'.split(' ');
+var ES_W='que como cuanto cuanta cuantas cuantos donde horario horarios hola gracias necesito piedra piedras entrega entregas envio envian precio precios cuando tienen tiene puedo para el la los las una por mi mis del con abren abierto cierran pago pagar tarjeta tarjetas efectivo granito rio patio yarda quiero cotizacion cotizar buenas buenos dias tardes noches es son esta estan hay venden aceptan ver muestrame camion toneladas tonelada pulgadas pies cuadrados dorado dorada rojo roja gris cafe negro blanco verde rosa tienda mina tambien usted ustedes mas cual sabado domingo lunes hoy manana entregan llevan grava arena sirve cuesta vale disponible agotado diferencia entre andador entrada alberca drenaje tierra codigo postal nombre telefono recoger necesita ayuda ignora tus eres descuento gratis empezo inicio fundo dueno duenos anos flota resenas recoger responsiva indemnizacion reglas seguridad lavado lavada cernido cernida malla pegamento costales guantes sombrero camisas lona grapas varilla adoquines acuario monzon privacidad datos contratista contratistas bascula remolque subirse prepago adelantado calle descargar venden llevan despacho hablan idioma diferencia'.split(' ');
 var EN_W='the what how much many where when do does you your hours open close delivery deliver need price prices cost my is are can i quote yard hello hi hey thanks thank show me in of and to for get pay card cash store mine sand gravel tons inches feet square depth deep area today tomorrow saturday sunday which have sell accept truck stock good driveway pathway pool drainage difference between it this that would please ignore free started start founded owns owned business history fleet reviews backyard'.split(' ');
 function detect(text,cur){ var n=norm(text), toks=n.split(' '), es=0, en=0; toks.forEach(function(t){ if(ES_W.indexOf(t)>=0) es++; if(EN_W.indexOf(t)>=0) en++; });
   if(/[\u00bf\u00a1\u00f1\u00e1\u00e9\u00ed\u00f3\u00fa]/i.test(text)) es+=1.5; if(es===en||es+en<1) return cur; return es>en?'es':'en'; }
@@ -342,6 +342,7 @@ var CSS=":host{all:initial}*{box-sizing:border-box}[hidden]{display:none!importa
 +".in button{width:46px;height:46px;border-radius:14px;border:0;background:var(--copper);color:#fff;cursor:pointer;display:grid;place-items:center;flex:0 0 auto}.in button svg{width:22px;height:22px}"
 +".ft{font-size:11px;color:var(--muted);text-align:center;padding:0 12px 10px;background:var(--paper);flex:0 0 auto;padding-bottom:max(10px,env(safe-area-inset-bottom))}.ft b{color:#7A4A21}"
 +".closed{padding:22px;text-align:center}.closed p{margin:10px 0}"
++".kb-es{display:block;font-weight:700;font-size:12px;color:var(--muted);margin-bottom:4px}.kb-q{display:block}.kb-src{display:block;margin-top:6px;font-size:12px;color:var(--muted)}.kb-src a{color:var(--copper);font-weight:600;text-decoration:underline}"
 +".sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}";
 var ICON_ROCK='<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 24 L11 11 L16 17 L20 9 L28 24 Z" fill="#E07A3C"/><path d="M4 24 L28 24" stroke="#E9D8B8" stroke-width="2"/></svg>';
 var ICON_CHAT='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="9.6" r="1.2" fill="currentColor"/><circle cx="12" cy="9.6" r="1.2" fill="currentColor"/><circle cx="15" cy="9.6" r="1.2" fill="currentColor"/></svg>';
@@ -398,7 +399,7 @@ function setLang(l,announce){ if(l!=='en'&&l!=='es') return; var ch=l!==lang; la
 function syncVP(){ if(!built||!isOpenPanel) return; var p=q('.panel'); if(!p) return;
   if(window.matchMedia('(max-width:600px)').matches&&window.visualViewport){ var vv=window.visualViewport; p.style.height=Math.round(vv.height)+'px'; p.style.top=Math.round(vv.offsetTop)+'px'; scroll(); }
   else { p.style.height=''; p.style.top=''; } }
-function open(question){ if(!root) return; if(!built) build(); var p=q('.panel'); if(!isOpenPanel){ p.hidden=false; isOpenPanel=true; var f=q('.fab'); f.setAttribute('aria-expanded','true'); f.hidden=true; var t=q('.teaser'); if(t) t.remove();
+function open(question){ if(!root) return; if(!built) build(); loadKB(); var p=q('.panel'); if(!isOpenPanel){ p.hidden=false; isOpenPanel=true; var f=q('.fab'); f.setAttribute('aria-expanded','true'); f.hidden=true; var t=q('.teaser'); if(t) t.remove();
     if(window.matchMedia('(max-width:600px)').matches){ htmlOverflow=document.documentElement.style.overflow; document.documentElement.style.overflow='hidden'; } }
   syncVP(); setStatusDot(); scroll();
   if(question&&!closedPreview()) send(String(question));
@@ -410,10 +411,11 @@ function me(t){ var d=document.createElement('div'); d.className='m me'; d.textC
 function bot(html,extra){ var d=document.createElement('div'); d.className='m bot'; d.innerHTML=html; log().appendChild(d); if(extra) [].concat(extra).forEach(function(x){ if(x) log().appendChild(x); }); scroll(); return d; }
 function opts(list){ var w=document.createElement('div'); w.className='opts'; list.forEach(function(o){ var b=document.createElement('button'); b.type='button'; b.className='opt'; b.textContent=o[0]; b.onclick=function(){ send(o[0],o[1]); }; w.appendChild(b); }); return w; }
 function reply(fn){ busy++; var ty=document.createElement('div'); ty.className='typing'; ty.setAttribute('aria-hidden','true'); ty.innerHTML='<i></i><i></i><i></i>'; log().appendChild(ty); scroll();
-  setTimeout(function(){ ty.remove(); busy--; try{ fn(); }catch(e){ bot(L().fallback); if(window.console) console.warn('[ABC chat]',e); } scroll(); }, 300+Math.random()*250); }
-function send(text,key){ try{ if(!built) build(); if(closedPreview()) return; var msg=String(text==null?'':text).trim(); if(!msg) return; me(msg);
+  var done=function(){ if(ty.parentNode) ty.remove(); busy--; scroll(); };
+  setTimeout(function(){ try{ var r=fn(done); if(r!=='async') done(); }catch(e){ done(); fallbackReply(); if(window.console) console.warn('[ABC chat]',e); } }, 300+Math.random()*250); }
+function send(text,key){ try{ if(!built) build(); loadKB(); if(closedPreview()) return; var msg=String(text==null?'':text).trim(); if(!msg) return; me(msg);
   if(!key){ var l=detect(msg,lang); var numeric=/^[\d\s\.,x"#\-()+]+$/.test(msg); if(l!==lang&&!numeric&&!(flow&&flow.need==='name')) setLang(l,false); }
-  reply(function(){ handle(msg,key); }); }catch(e){ try{ bot(L().fallback); }catch(_){} if(window.console) console.warn('[ABC chat]',e); } }
+  reply(function(done){ return handle(msg,key,done); }); }catch(e){ try{ fallbackReply(); }catch(_){} if(window.console) console.warn('[ABC chat]',e); } }
 /* renderers */
 function imgUrl(p){ return BASE+'img/p/'+p.id+'.jpg'; }
 function stockPill(s){ return '<span class="pill s-'+esc(s)+'">'+esc(STOCK[lang][s]||s)+'</span>'; }
@@ -569,10 +571,121 @@ function quoteCard(txt){ var t=L(), w=document.createElement('div'); w.className
   return w; }
 function isSkip(n){ return /^(skip|omitir|no se|no lo se|i don.?t know|idk|n\/a|pass|paso|saltar)$/.test(n); }
 
+/* site knowledge base (lazy-loaded kb.json) */
+var KB, kbProm=null;
+var KB_STOP={a:1,an:1,the:1,and:1,or:1,but:1,'if':1,nor:1,so:1,yet:1,to:1,'of':1,'in':1,on:1,at:1,by:1,'for':1,from:1,'with':1,into:1,onto:1,about:1,above:1,after:1,before:1,between:1,during:1,through:1,under:1,over:1,around:1,across:1,is:1,are:1,was:1,were:1,be:1,been:1,being:1,have:1,has:1,had:1,'do':1,does:1,did:1,will:1,would:1,could:1,should:1,may:1,might:1,must:1,can:1,'this':1,that:1,these:1,those:1,it:1,its:1,they:1,their:1,them:1,we:1,our:1,you:1,your:1,he:1,she:1,his:1,her:1,who:1,which:1,what:1,when:1,where:1,why:1,how:1,all:1,any:1,both:1,each:1,few:1,more:1,most:1,other:1,some:1,such:1,no:1,not:1,only:1,own:1,same:1,than:1,too:1,very:1,just:1,also:1,well:1,per:1,as:1,tell:1,sell:1,ask:1,give:1,know:1,want:1,find:1,look:1,looking:1,need:1,needs:1,work:1,works:1,happen:1,happens:1,today:1,please:1,thank:1,thanks:1,hello:1,hi:1,hey:1,mean:1,type:1,types:1,kind:1,kinds:1,thing:1,things:1,something:1,anything:1};
+function kbToks(s){
+  var x=String(s||'').toLowerCase().replace(/['\u2018\u2019\u02bc]/g,'').replace(/\u00bc/g,' 1/4 ').replace(/\u00bd/g,' 1/2 ').replace(/\u00be/g,' 3/4 ').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  var m=x.match(/[a-z0-9#]+/g)||[];
+  return m.filter(function(t){ return t.length>=2&&!KB_STOP[t]; });
+}
+function kbStem(w){
+  if(w.length<=3||/^\d+$/.test(w)) return w;
+  if(/ies$/.test(w)&&w.length>4) w=w.slice(0,-3)+'y';
+  else if(/ied$/.test(w)&&w.length>4) w=w.slice(0,-3)+'y';
+  else if(/(sses|shes|ches|xes)$/.test(w)&&w.length>5) w=w.slice(0,-2);
+  else if(/s$/.test(w)&&!/ss$/.test(w)&&w.length>3) w=w.slice(0,-1);
+  if(/ing$/.test(w)&&w.length>5) w=w.slice(0,-3);
+  else if(/ed$/.test(w)&&w.length>4) w=w.slice(0,-2);
+  else if(/ly$/.test(w)&&w.length>5) w=w.slice(0,-2);
+  else if(/ment$/.test(w)&&w.length>6) w=w.slice(0,-4);
+  else if(/ness$/.test(w)&&w.length>6) w=w.slice(0,-4);
+  else if(/er$/.test(w)&&w.length>5) w=w.slice(0,-2);
+  return w;
+}
+function loadKB(){
+  if(KB!==undefined) return Promise.resolve(KB);
+  if(kbProm) return kbProm;
+  if(typeof fetch!=='function'){ KB=null; return Promise.resolve(null); }
+  kbProm=fetch(BASE+'kb.json?v=3',{credentials:'omit'}).then(function(r){ return r.ok?r.json():null; }).then(function(d){
+    if(!d||!d.p||!d.inv){ KB=null; return null; }
+    var post={}, idf={}, vocab=Object.keys(d.inv), N=d.N;
+    for(var i=0;i<vocab.length;i++){
+      var st=vocab[i], parts=d.inv[st].split(' '), arr=[];
+      for(var j=0;j<parts.length;j++){ var v=parseInt(parts[j],36); arr.push(v>>5,v&31); }
+      post[st]=arr;
+      var df=arr.length>>1;
+      idf[st]=Math.log((N-df+0.5)/(df+0.5)+1);
+    }
+    d._post=post; d._idf=idf; d._vocab=vocab; KB=d; return KB;
+  }).catch(function(){ KB=null; return null; });
+  return kbProm;
+}
+function kbSearch(query){
+  if(!KB) return null;
+  var raw=kbToks(query); if(!raw.length) return null;
+  var qw={}, post=KB._post, idf=KB._idf, vocab=KB._vocab, syn=KB.syn||{}, es=KB.es||{};
+  for(var i=0;i<raw.length;i++){
+    var tok=raw[i], st=kbStem(tok);
+    if(es[tok]){
+      for(var j=0;j<es[tok].length;j++){ var est=kbStem(es[tok][j]); if(post[est]) qw[est]=Math.max(qw[est]||0,1); }
+    }
+    if(post[st]) qw[st]=Math.max(qw[st]||0,1);
+    else if(!es[tok]&&tok.length>=4){
+      var tol=tok.length>=7?2:1, bv=null, bd=9;
+      for(var vi=0;vi<vocab.length;vi++){
+        var vv=vocab[vi];
+        if(Math.abs(vv.length-st.length)<=tol){ var d=lev(st,vv); if(d<=tol&&d<bd){ bd=d; bv=vv; } }
+      }
+      if(bv) qw[bv]=Math.max(qw[bv]||0,0.75);
+    }
+    var keys=[tok,st];
+    for(var ki=0;ki<keys.length;ki++){
+      var sl=syn[keys[ki]];
+      if(sl) for(var si=0;si<sl.length;si++){ var sst=kbStem(sl[si]); if(post[sst]) qw[sst]=Math.max(qw[sst]||0,0.55); }
+    }
+  }
+  var qkeys=Object.keys(qw); if(!qkeys.length) return null;
+  var scores={}, hits={}, k1=1.4, b=0.65, P=KB.p, avgdl=KB.avgdl;
+  for(var q=0;q<qkeys.length;q++){
+    var k=qkeys[q], iv=idf[k]; if(!iv||iv<=0.15) continue;
+    var pl=post[k], w=qw[k];
+    for(var pi=0;pi<pl.length;pi+=2){
+      var di=pl[pi], tf=pl[pi+1], dl=P[di][4];
+      var sc=w*iv*(tf*(k1+1))/(tf+k1*(1-b+b*dl/avgdl));
+      scores[di]=(scores[di]||0)+sc;
+      if(w>=0.75){ if(!hits[di]) hits[di]={}; hits[di][k]=1; }
+    }
+  }
+  var bestDi=-1, bestSc=0;
+  var dkeys=Object.keys(scores);
+  for(var d=0;d<dkeys.length;d++){ var idx=+dkeys[d]; if(scores[idx]>bestSc){ bestSc=scores[idx]; bestDi=idx; } }
+  if(bestDi<0) return null;
+  var hitCnt=hits[bestDi]?Object.keys(hits[bestDi]).length:0;
+  if(!((bestSc>=10.5&&hitCnt>=1)||(bestSc>=8.5&&hitCnt>=2))) return null;
+  var doc=P[bestDi], txt=doc[3];
+  if(/\$\s?\d/.test(txt)) return null;
+  var sents=txt.split(/(?<=[.!?])\s+/);
+  var ss=[];
+  for(var si2=0;si2<sents.length;si2++){
+    var s=sents[si2], stoks=kbToks(s), seenS={}, ov=0;
+    for(var ti=0;ti<stoks.length;ti++){ var ks=kbStem(stoks[ti]); if(!seenS[ks]&&qw[ks]){ seenS[ks]=1; ov+=qw[ks]*(idf[ks]||1); } }
+    ss.push({ov:ov,i:si2,s:s});
+  }
+  ss.sort(function(a,b2){ return b2.ov-a.ov||a.i-b2.i; });
+  var chosen=[ss[0].i];
+  if(ss.length>1&&ss[1].ov>0) chosen.push(ss[1].i);
+  chosen.sort(function(a,b2){return a-b2;});
+  if(chosen.length===1&&chosen[0]+1<sents.length&&sents[chosen[0]].split(' ').length<20) chosen.push(chosen[0]+1);
+  var seenOut={}, ext=[];
+  for(var ci=0;ci<chosen.length;ci++){ var line=sents[chosen[ci]].trim(); if(line&&!seenOut[line]){ seenOut[line]=1; ext.push(line); } }
+  if(chosen.length<3&&ss.length>2&&ext.join(' ').split(' ').length<28&&ss[2].ov>0){ var l3=sents[ss[2].i].trim(); if(l3&&!seenOut[l3]) ext.push(l3); }
+  return {score:bestSc,url:KB.u[doc[0]],title:KB.t[doc[1]],extract:ext.join(' ')};
+}
+function fallbackReply(){
+  var l=lang;
+  return bot(L().fallback,opts(l==='es'?[['Sobre ABC','about'],['Productos','products'],['\u00bfCu\u00e1nto necesito?','calc'],['Entregas','delivery'],['Horario y ubicaci\u00f3n','hourswhere'],['Pedir cotizaci\u00f3n','quote']]:[['About ABC','about'],['Products','products'],['How much do I need?','calc'],['Delivery','delivery'],['Hours & location','hourswhere'],['Get a quote','quote']]));
+}
+function kbReply(res){
+  var l=lang, pre=l==='es'?'<span class="kb-es">Esto dice la p\u00e1gina de ABC:</span>':'';
+  var h=pre+'<span class="kb-q">'+esc(res.extract)+'</span><span class="kb-src">Source: <a href="'+esc(res.url)+'" target="_blank" rel="noopener">ABC\'s '+esc(res.title)+' page</a></span>';
+  return bot(h);
+}
+
 /* router */
 function score(n,toks){ var s={}; Object.keys(INTENTS).forEach(function(k){ var v=0; INTENTS[k].forEach(function(kw){ if(has(n,toks,kw)) v+=kw.indexOf(' ')>=0?2:1; }); if(v) s[k]=v; }); return s; }
 var TOPICS=['drainage','driveway','pathway','pool'];
-function handle(text,key){
+function handle(text,key,done){
   var n=norm(text), toks=n.split(' '), t=L(), l=lang;
   var g=key?null:guardCheck(text);
   if(g){ flow=null; return bot(t.guard[g],opts(l==='es'?[['Productos','products'],['\u00bfCu\u00e1nto necesito?','calc']]:[['Products','products'],['How much do I need?','calc']])); }
@@ -629,6 +742,11 @@ function handle(text,key){
   if(sc.stock&&ctxP&&!sc.delivery&&!sc.hours) return stockAnswer(ctxP);
   if(ctxP&&!sc.calc&&!sc.quote&&!(parseArea(n))){ var foc=TOPICS.filter(function(k){return sc[k];})[0]||(sc.coverage?'coverage':sc.weight?'weight':sc.sizes?'sizes':sc.colors?'colors':null); return infoAnswer(ctxP,foc); }
   if(sc.quote&&!sc.calc) return startQuote(n,toks);
+  var kbPrefer=/\b(indemnif\w*|responsiva|washed|screened|lavad[oa]s?|cernid[oa]s?|tamizad[oa]s?|prepay|prepaid|prepago|adelantado|climb\w*|subir\w*|trailer\w*|remolque\w*|loose items|escort\w*|refuse|unsafe|scale house|scale ticket|bascula|safety rules|reglas de seguridad|inside the mine|en la mina|privacy|privacidad|cookies?|aquariums?|acuarios?|peceras?|coast to coast|nationwide|dispatch|spanish.?speak\w*|hablan.*espanol|monsoon|monzon|xeriscap\w*|contractors?|contratistas?|builders?|constructores?|commercial|comercial\w*|marco|patricia|giovanni|zackary|dustin|weed barrier|malla|landscape fabric|rock glue|pegamento|sandbags?|costales?|rebar|varilla|lava|beach pebble|cobblestone|wintergreen|gloves|guantes|straw hats?|sombreros?|tarps?|lonas?|staples|grapas|phoenix cement|cemento|pavers?.*calculat\w*|calculat\w*.*pavers?)\b/.test(n);
+  if(kbPrefer&&!(sc.calc&&parseArea(n))){
+    if(KB===undefined&&done){ loadKB().then(function(){ try{ handle(text,key); }catch(e){ fallbackReply(); } done(); }); return 'async'; }
+    var kpr=kbSearch(text); if(kpr) return kbReply(kpr);
+  }
   if(sc.calc||(parseArea(n)&&(p||type||lastProd))){ var cc={}; var m2=matFrom(n,toks)||(lastProd?{mat:lastProd.n,prod:lastProd,dk:lastProd.d}:null); if(m2){cc.mat=m2.mat;cc.prod=m2.prod;cc.dk=m2.dk;} var aa=parseArea(n); if(aa) cc.area=aa; var dd=parseDepth(n); if(dd) cc.depth=dd;
     flow={k:'calc',c:cc}; if(cc.mat&&cc.area&&cc.depth){ flow=null; return calcOut(cc); } if(!cc.mat){flow.need='mat'; return bot(cc.area?(l==='es'?'Entendido, <b>'+fmt(cc.area,l)+' pies\u00b2</b>. \u00bfQu\u00e9 material? (ej. Desert Gold, DG, piedra de r\u00edo)':'Got it \u2014 <b>'+fmt(cc.area,l)+' sq ft</b>. Which material? (e.g. Desert Gold, DG, river rock)'):t.askMat);} if(!cc.area){flow.need='area'; return bot((l==='es'?'Con <b>'+esc(cc.mat)+'</b>. ':'Using <b>'+esc(cc.mat)+'</b>. ')+t.askArea);} flow.need='depth'; return bot(t.askDepth); }
   if(/artificial|synthetic|sintetic|fake grass|firewood|lena|mulch|bark|sod/.test(n)) return bot(t.fallback,opts(l==='es'?[['Sobre ABC','about'],['Productos','products'],['\u00bfCu\u00e1nto necesito?','calc'],['Entregas','delivery'],['Horario y ubicaci\u00f3n','hourswhere'],['Pedir cotizaci\u00f3n','quote']]:[['About ABC','about'],['Products','products'],['How much do I need?','calc'],['Delivery','delivery'],['Hours & location','hourswhere'],['Get a quote','quote']]));
@@ -647,7 +765,9 @@ function handle(text,key){
   if(best) return bot(typeof t[best]==='function'?t[best]():t[best]);
   if(sc.greet) return bot(t.hello);
   if(sc.thanks) return bot(t.thanks);
-  return bot(t.fallback,opts(l==='es'?[['Sobre ABC','about'],['Productos','products'],['\u00bfCu\u00e1nto necesito?','calc'],['Entregas','delivery'],['Horario y ubicaci\u00f3n','hourswhere'],['Pedir cotizaci\u00f3n','quote']]:[['About ABC','about'],['Products','products'],['How much do I need?','calc'],['Delivery','delivery'],['Hours & location','hourswhere'],['Get a quote','quote']]));
+  if(KB===undefined&&done){ loadKB().then(function(){ try{ handle(text,key); }catch(e){ fallbackReply(); } done(); }); return 'async'; }
+  var kr=kbSearch(text); if(kr) return kbReply(kr);
+  return fallbackReply();
 }
 
 /* public API */

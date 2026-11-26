@@ -1,0 +1,452 @@
+{
+ "_readme": "EXAMPLE DATA ONLY. ABC Sand & Rock does not publish prices or inventory. Every number here is a placeholder for the preview; ABC would replace it (or sync it from their POS/inventory system or a spreadsheet).",
+ "example": true,
+ "currency": "USD",
+ "unit": "ton",
+ "taxNote": "plus sales tax",
+ "zones": [
+  {
+   "id": "A",
+   "name": {
+    "en": "Zone A · Central Phoenix",
+    "es": "Zona A · Centro de Phoenix"
+   },
+   "fee": 65,
+   "zips": [
+    "85003",
+    "85004",
+    "85006",
+    "85007",
+    "85008",
+    "85009",
+    "85012",
+    "85013",
+    "85014",
+    "85015",
+    "85016",
+    "85017",
+    "85018",
+    "85019",
+    "85031",
+    "85033",
+    "85035",
+    "85037",
+    "85301",
+    "85303",
+    "85305"
+   ]
+  },
+  {
+   "id": "B",
+   "name": {
+    "en": "Zone B · Metro Valley",
+    "es": "Zona B · Resto del Valle"
+   },
+   "fee": 95,
+   "prefixes": [
+    "850",
+    "852",
+    "853"
+   ]
+  },
+  {
+   "id": "C",
+   "name": {
+    "en": "Zone C · Outer Valley",
+    "es": "Zona C · Afueras del Valle"
+   },
+   "fee": 135,
+   "prefixes": [
+    "851",
+    "863",
+    "864"
+   ]
+  }
+ ],
+ "products": {
+  "apache-pink": {
+   "price": 66,
+   "stock": "out"
+  },
+  "arizona-beige": {
+   "price": 62,
+   "stock": "in"
+  },
+  "arizona-blonde": {
+   "price": 58,
+   "stock": "in"
+  },
+  "baja-brown": {
+   "price": 66,
+   "stock": "in"
+  },
+  "belmont-gold": {
+   "price": 58,
+   "stock": "in"
+  },
+  "copper-canyon-brown": {
+   "price": 62,
+   "stock": "in"
+  },
+  "desert-coral": {
+   "price": 66,
+   "stock": "in"
+  },
+  "desert-mauve": {
+   "price": 66,
+   "stock": "in"
+  },
+  "palomino-gold": {
+   "price": 58,
+   "stock": "in"
+  },
+  "1-4-natural-pea-gravel": {
+   "price": 72,
+   "stock": "in"
+  },
+  "3-8-natural-pea-gravel": {
+   "price": 64,
+   "stock": "in"
+  },
+  "ridge-grey": {
+   "price": 58,
+   "stock": "in"
+  },
+  "1-2-3-4-natural-river-rock": {
+   "price": 64,
+   "stock": "in"
+  },
+  "mahogany": {
+   "price": 62,
+   "stock": "in"
+  },
+  "madison-gold": {
+   "price": 58,
+   "stock": "in"
+  },
+  "natural-river-rock": {
+   "price": 72,
+   "stock": "in"
+  },
+  "3-8-natural-river-rock": {
+   "price": 64,
+   "stock": "in"
+  },
+  "6-natural-river-rock": {
+   "price": 74,
+   "stock": "seasonal"
+  },
+  "white-marble": {
+   "price": 58,
+   "stock": "in"
+  },
+  "turner-north": {
+   "price": 58,
+   "stock": "in"
+  },
+  "sundance-blend": {
+   "price": 62,
+   "stock": "in"
+  },
+  "table-mesa-caramel": {
+   "price": 62,
+   "stock": "in"
+  },
+  "sierra-verde": {
+   "price": 58,
+   "stock": "in"
+  },
+  "santa-fe-beige": {
+   "price": 58,
+   "stock": "in"
+  },
+  "sable": {
+   "price": 62,
+   "stock": "in"
+  },
+  "painted-desert": {
+   "price": 58,
+   "stock": "in"
+  },
+  "ponderosa-platinum": {
+   "price": 62,
+   "stock": "in"
+  },
+  "pleasant-gold": {
+   "price": 62,
+   "stock": "in"
+  },
+  "saddleback-brown": {
+   "price": 58,
+   "stock": "in"
+  },
+  "sedona-red": {
+   "price": 66,
+   "stock": "low"
+  },
+  "mountain-vista-brown": {
+   "price": 58,
+   "stock": "in"
+  },
+  "jesse-red": {
+   "price": 62,
+   "stock": "in"
+  },
+  "mineral-grey": {
+   "price": 58,
+   "stock": "in"
+  },
+  "frost": {
+   "price": 66,
+   "stock": "in"
+  },
+  "desert-vista-brown": {
+   "price": 66,
+   "stock": "in"
+  },
+  "desert-verde": {
+   "price": 58,
+   "stock": "in"
+  },
+  "desert-sunset": {
+   "price": 58,
+   "stock": "in"
+  },
+  "desert-tan": {
+   "price": 62,
+   "stock": "in"
+  },
+  "desert-spice": {
+   "price": 58,
+   "stock": "in"
+  },
+  "desert-ranch": {
+   "price": 58,
+   "stock": "in"
+  },
+  "desert-jade": {
+   "price": 58,
+   "stock": "in"
+  },
+  "charcoal": {
+   "price": 62,
+   "stock": "in"
+  },
+  "ash": {
+   "price": 58,
+   "stock": "in"
+  },
+  "table-mesa-brown": {
+   "price": 62,
+   "stock": "in"
+  },
+  "yavapai-coral": {
+   "price": 58,
+   "stock": "in"
+  },
+  "sandy-coral": {
+   "price": 66,
+   "stock": "in"
+  },
+  "autumn": {
+   "price": 58,
+   "stock": "in"
+  },
+  "desert-gold": {
+   "price": 62,
+   "stock": "in"
+  },
+  "apache-gold": {
+   "price": 66,
+   "stock": "in"
+  },
+  "sunset": {
+   "price": 58,
+   "stock": "in"
+  },
+  "carmel": {
+   "price": 58,
+   "stock": "in"
+  },
+  "apache-brown": {
+   "price": 62,
+   "stock": "in"
+  },
+  "superior-gold": {
+   "price": 58,
+   "stock": "in"
+  },
+  "apache-rose": {
+   "price": 58,
+   "stock": "in"
+  },
+  "apache-red": {
+   "price": 58,
+   "stock": "in"
+  },
+  "madison-gold-crushed": {
+   "price": 56,
+   "stock": "in"
+  },
+  "palomino-gold-crushed": {
+   "price": 56,
+   "stock": "in"
+  },
+  "desert-rose": {
+   "price": 62,
+   "stock": "in"
+  },
+  "rainbow-mist": {
+   "price": 58,
+   "stock": "in"
+  },
+  "gila-brown": {
+   "price": 66,
+   "stock": "in"
+  },
+  "arizona-brown": {
+   "price": 58,
+   "stock": "in"
+  },
+  "apache-pink-dg": {
+   "price": 52,
+   "stock": "in"
+  },
+  "arizona-chestnut": {
+   "price": 58,
+   "stock": "in"
+  },
+  "rosewood-brown": {
+   "price": 62,
+   "stock": "in"
+  },
+  "express-gold": {
+   "price": 58,
+   "stock": "in"
+  },
+  "grande-rose": {
+   "price": 66,
+   "stock": "in"
+  },
+  "arizona-gold": {
+   "price": 58,
+   "stock": "in"
+  },
+  "arizona-red": {
+   "price": 58,
+   "stock": "in"
+  },
+  "arizona-beige-dg": {
+   "price": 56,
+   "stock": "in"
+  },
+  "rebel-red": {
+   "price": 62,
+   "stock": "in"
+  },
+  "pink-coral": {
+   "price": 58,
+   "stock": "in"
+  },
+  "express-armor": {
+   "price": 66,
+   "stock": "in"
+  },
+  "florence-gold": {
+   "price": 58,
+   "stock": "in"
+  },
+  "charcoal-dg": {
+   "price": 60,
+   "stock": "low"
+  },
+  "table-mesa-brown-dg": {
+   "price": 52,
+   "stock": "in"
+  },
+  "desert-jade-dg": {
+   "price": 60,
+   "stock": "in"
+  },
+  "belmont-gold-dg": {
+   "price": 56,
+   "stock": "in"
+  },
+  "pleasant-gold-dg": {
+   "price": 52,
+   "stock": "in"
+  },
+  "turner-north-dg": {
+   "price": 52,
+   "stock": "in"
+  },
+  "red-cinder": {
+   "price": 66,
+   "stock": "in"
+  },
+  "autumn-gold": {
+   "price": 58,
+   "stock": "in"
+  },
+  "black-cherry": {
+   "price": 66,
+   "stock": "in"
+  },
+  "cinnamon-brown": {
+   "price": 62,
+   "stock": "in"
+  },
+  "texas-rose": {
+   "price": 58,
+   "stock": "in"
+  },
+  "mortar-sand": {
+   "price": 38,
+   "stock": "in"
+  },
+  "concrete-sand": {
+   "price": 46,
+   "stock": "in"
+  },
+  "fine-manufactured-sand": {
+   "price": 38,
+   "stock": "in"
+  },
+  "bedding-sand": {
+   "price": 38,
+   "stock": "in"
+  },
+  "concrete-mix": {
+   "price": 44,
+   "stock": "in"
+  },
+  "3-8-concrete-mix": {
+   "price": 52,
+   "stock": "in"
+  },
+  "grout-mix": {
+   "price": 52,
+   "stock": "in"
+  },
+  "fill-dirt": {
+   "price": 34,
+   "stock": "in"
+  },
+  "screened-top-soil": {
+   "price": 38,
+   "stock": "low"
+  },
+  "57-rock": {
+   "price": 40,
+   "stock": "in"
+  },
+  "1-4-crushed": {
+   "price": 40,
+   "stock": "in"
+  },
+  "mag-spec-abc": {
+   "price": 44,
+   "stock": "in"
+  }
+ }
+}

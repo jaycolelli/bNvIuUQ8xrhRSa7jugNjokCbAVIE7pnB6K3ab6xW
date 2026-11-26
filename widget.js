@@ -16,7 +16,7 @@ var DEADLINE_MS=Date.parse('2026-12-02T18:00:00Z');
 var LS_CFG='abcChat.cfg.v1', LS_REQ='abcChat.requests.v1', LS_LANG='abcChat.lang';
 var DENS={ds:1.4,rr:1.4,rr6:1.1,dg:1.4,sand:1.3,mix:1.8,soil:1.3,nf:1.4};
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
-var norm=function(s){return String(s).toLowerCase().replace(/\u00bc/g,'1/4').replace(/\u00bd/g,'1/2').replace(/\u00be/g,'3/4').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[\u2033\u201d\u201c"]/g,'"').replace(/[^a-z0-9"\/\.#\s-]/g,' ').replace(/\s+/g,' ').trim();};
+var norm=function(s){return String(s).toLowerCase().replace(/['\u2018\u2019\u02bc]/g,'').replace(/\u00bc/g,'1/4').replace(/\u00bd/g,'1/2').replace(/\u00be/g,'3/4').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[\u2033\u201d\u201c"]/g,'"').replace(/[^a-z0-9"\/\.#\s-]/g,' ').replace(/\s+/g,' ').trim();};
 var r2=function(v){return Math.round(v*100)/100;};
 function fmt(v,l,d){ return Number(v).toLocaleString(l==='es'?'es-MX':'en-US',{minimumFractionDigits:d==null?0:d,maximumFractionDigits:d==null?2:d}); }
 function money(v,l){ return '$'+fmt(v,l,2); }
@@ -70,8 +70,10 @@ en:{title:'ABC Sand & Rock',ph:'Ask about rock, prices, delivery\u2026',send:'Se
  where:'<b>Retail yard</b>\n1804 N. 27th Ave, Phoenix, AZ 85009\n<b>Mining yard</b>\n5401 N. 119th Ave, Glendale, AZ 85307\n\nCall '+A_TEL+' \u00b7 Dispatch: '+A_DISP+', option 3',
  delivery:'<b>Delivery</b>\n\u2022 Next-day delivery across the Valley\n\u2022 1-ton minimum, up to 24 tons per truck (bigger jobs go in more than one load)\n\u2022 Windows: Mon\u2013Fri 6\u20139 AM, 9 AM\u201312 PM, 12\u20134 PM \u00b7 Sat 6\u20139 AM, 9 AM\u201312 PM\n\u2022 Prepay and you don\u2019t need to be home; otherwise someone signs and pays on site\n\nDispatch: '+A_DISP+', option 3',
  pay:'ABC takes <b>cash and all major credit cards</b>. Prepay at either yard and you don\u2019t need to be home for the delivery.',
- about:'ABC Sand & Rock is family-owned and has served Phoenix since <b>1974</b>, now run by the third generation. They bought their first dump truck the same year they opened, and today run a retail yard in Phoenix and a mine in Glendale.',
- retail:'<b>Retail yard \u00b7 1804 N. 27th Ave, Phoenix</b>\nBulk rock and sand plus bagged products (cement, mortar mix, lime) for pickup. There\u2019s a rock display out front to help you choose, and the counter team speaks Spanish.',
+ about:'<b>About ABC Sand & Rock</b>\n\u2022 <b>Started in 1974</b> as <i>ABC Enterprises</i>, a retail yard for bulk construction materials in Phoenix, and bought their first dump truck that same year.\n\u2022 <b>Family-owned, 3rd generation:</b> just over ten years later they opened their first mine; today the third generation runs it (their Our Story page notes their 50th consecutive year).\n\u2022 <b>Mined locally:</b> ABC mines and processes its own sand, gravel and decorative rock in Arizona. The Glendale mine produces construction materials and natural river rock (shipped coast to coast) and is open to the public.\n\u2022 <b>Two yards:</b> Phoenix store (1804 N. 27th Ave, still at the original yard) and Glendale mine (5401 N. 119th Ave).\n\u2022 <b>Fleet:</b> 4 truck sizes, 5 to 24.5 t (delivery pages say 1\u201324 t; header badge says 5\u201324 t).\n\u2022 <b>Reviews:</b> header shows 4.7\u2605 from 219 Google reviews; page metadata lists 4.5 from 86 reviews.',
+ fleet:'<b>ABC Delivery Fleet</b>\n\u2022 Bobtail Dump Truck: up to 5 tons\n\u2022 Simple 16: up to 21.5 tons\n\u2022 Super 18 (Western Star): up to 24 tons\n\u2022 Super 18 (Kenworth): up to 24.5 tons\n<small>Note: ABC\u2019s delivery page lists 1\u201324 tons per truck (1-ton minimum), while the site header badge says 5\u201324 tons and the fleet page lists 24.5 max on the Kenworth.</small>',
+ reviews:'<b>Published reviews</b>\nABC\u2019s site header shows <b>4.7 stars from 219 Google reviews</b>, while the page metadata lists <b>4.5 from 86 reviews</b>. Both numbers appear on abcsandrock.com.',
+ retail:'<b>Pickup at ABC</b>\n<b>Retail yard \u00b7 1804 N. 27th Ave, Phoenix</b>\nBulk rock and sand plus bagged products (cement, mortar mix, lime) for pickup, with a rock display out front and a Spanish-speaking counter team (free quantity estimates).\n<b>Mining yard \u00b7 5401 N. 119th Ave, Glendale</b>\nAggregate and river rock pickup is open to the public too: check in at the scale house first and stay inside your vehicle.',
  mine:'<b>Mining yard \u00b7 5401 N. 119th Ave, Glendale</b>\nNatural river rock and construction materials. Check in at the scale house first, pay and get your ticket, and stay in your vehicle inside the mine.',
  callPrice:'<b>Call for pricing \u00b7 '+A_TEL+'</b>\nABC quotes prices by phone or at the counter. Want me to build a quote request for you?',
  askMat:'Sure! Which material? Say a rock name (like Desert Gold) or a type: decorative stone, DG, river rock, sand, fill dirt\u2026',
@@ -84,7 +86,7 @@ en:{title:'ABC Sand & Rock',ph:'Ask about rock, prices, delivery\u2026',send:'Se
  qDone:'Here\u2019s your quote request, in English and Spanish. <b>This preview sends nothing</b>; a live version would deliver it straight to ABC\u2019s email or dispatch board.',
  copy:'Copy',copied:'Copied \u2713',call:'Call ABC',pickup:'Pickup at the Phoenix yard',tbd:'to confirm',
  thanks:'You\u2019re welcome! Anything else I can help with?',
- fallback:'Good question, but I don\u2019t want to guess. The team at '+A_TEL+' can answer that one (Mon\u2013Fri 5\u20134:30, Sat 6\u201312). I can also start a quote request for you.',
+ fallback:'Good question, but I don\u2019t want to guess on that one. You can call ABC at <b>'+A_TEL+'</b> (Mon\u2013Fri 5\u20134:30, Sat 6\u201312), or tap one of the topics below:',
  human:'Happy to connect you. Call the yard at <b>'+A_TEL+'</b>, or dispatch at '+A_DISP+', option 3.',
  viz:'Want to see a rock in your own yard first? Try the <a href="'+VIZ+'" target="_blank" rel="noopener">Yard Visualizer</a>: snap a photo and swap in any ABC rock.',
  order:'You can also try <a href="'+ORDER+'" target="_blank" rel="noopener">Order ABC 24/7</a>, the online delivery-request demo.',
@@ -105,8 +107,10 @@ es:{title:'ABC Sand & Rock',ph:'Pregunte por piedra, precios, entregas\u2026',se
  where:'<b>Yarda de venta</b>\n1804 N. 27th Ave, Phoenix, AZ 85009\n<b>Mina</b>\n5401 N. 119th Ave, Glendale, AZ 85307\n\nLlame al '+A_TEL+' \u00b7 Despacho: '+A_DISP+', opci\u00f3n 3',
  delivery:'<b>Entregas</b>\n\u2022 Entrega al d\u00eda siguiente en todo el Valle\n\u2022 M\u00ednimo 1 tonelada, hasta 24 toneladas por cami\u00f3n (trabajos m\u00e1s grandes van en varias cargas)\n\u2022 Horarios: lunes a viernes 6\u20139 AM, 9 AM\u201312 PM, 12\u20134 PM \u00b7 s\u00e1bado 6\u20139 AM, 9 AM\u201312 PM\n\u2022 Si paga por adelantado no tiene que estar; si no, alguien firma y paga en el lugar\n\nDespacho: '+A_DISP+', opci\u00f3n 3',
  pay:'ABC acepta <b>efectivo y todas las tarjetas principales</b>. Si paga por adelantado en cualquiera de las yardas, no necesita estar en casa para la entrega.',
- about:'ABC Sand & Rock es una empresa familiar que da servicio en Phoenix desde <b>1974</b>, hoy en manos de la tercera generaci\u00f3n. Compraron su primer cami\u00f3n de volteo el mismo a\u00f1o que abrieron, y hoy tienen una yarda de venta en Phoenix y una mina en Glendale.',
- retail:'<b>Yarda de venta \u00b7 1804 N. 27th Ave, Phoenix</b>\nPiedra y arena a granel, y productos en bolsa (cemento, mezcla para mortero, cal) para recoger. Afuera hay una exhibici\u00f3n de piedras, y en el mostrador hablan espa\u00f1ol.',
+ about:'<b>Sobre ABC Sand & Rock</b>\n\u2022 <b>Empez\u00f3 en 1974</b> como <i>ABC Enterprises</i>, una yarda de venta de materiales de construcci\u00f3n en Phoenix, y ese mismo a\u00f1o compraron su primer cami\u00f3n de volteo.\n\u2022 <b>Empresa familiar, 3.\u00aa generaci\u00f3n:</b> poco m\u00e1s de diez a\u00f1os despu\u00e9s abrieron su primera mina; hoy la dirige la tercera generaci\u00f3n (su p\u00e1gina Our Story menciona su 50.\u00ba a\u00f1o consecutivo).\n\u2022 <b>Extracci\u00f3n local:</b> ABC extrae y procesa su propia arena, grava y piedra decorativa en Arizona. La mina de Glendale produce materiales de construcci\u00f3n y piedra de r\u00edo natural (enviada de costa a costa) y est\u00e1 abierta al p\u00fablico.\n\u2022 <b>Dos yardas:</b> tienda en Phoenix (1804 N. 27th Ave, en su ubicaci\u00f3n original) y mina en Glendale (5401 N. 119th Ave).\n\u2022 <b>Flota:</b> 4 camiones de 5 a 24.5 t (entregas dice 1\u201324 t; el encabezado dice 5\u201324 t).\n\u2022 <b>Rese\u00f1as:</b> el encabezado muestra 4.7\u2605 con 219 rese\u00f1as en Google; los metadatos indican 4.5 con 86.',
+ fleet:'<b>Flota de entrega de ABC</b>\n\u2022 Bobtail Dump Truck: hasta 5 toneladas\n\u2022 Simple 16: hasta 21.5 toneladas\n\u2022 Super 18 (Western Star): hasta 24 toneladas\n\u2022 Super 18 (Kenworth): hasta 24.5 toneladas\n<small>Nota: la p\u00e1gina de entregas indica 1\u201324 toneladas por cami\u00f3n (m\u00ednimo 1 t), el encabezado dice 5\u201324 toneladas y la p\u00e1gina de flota lista hasta 24.5 en el Kenworth.</small>',
+ reviews:'<b>Rese\u00f1as publicadas</b>\nEl encabezado de abcsandrock.com muestra <b>4.7 estrellas con 219 rese\u00f1as en Google</b>, mientras que los metadatos de la p\u00e1gina indican <b>4.5 con 86 rese\u00f1as</b>.',
+ retail:'<b>Recoger en ABC</b>\n<b>Yarda de venta \u00b7 1804 N. 27th Ave, Phoenix</b>\nPiedra y arena a granel y productos en bolsa (cemento, mortero, cal) para recoger, con exhibici\u00f3n de piedras y equipo que habla espa\u00f1ol en el mostrador.\n<b>Mina \u00b7 5401 N. 119th Ave, Glendale</b>\nTambi\u00e9n puede recoger piedra de r\u00edo y agregados: pase primero a la b\u00e1scula y qu\u00e9dese dentro de su veh\u00edculo.',
  mine:'<b>Mina \u00b7 5401 N. 119th Ave, Glendale</b>\nPiedra de r\u00edo natural y materiales de construcci\u00f3n. Primero pase a la b\u00e1scula, pague y recoja su boleto, y no se baje del veh\u00edculo dentro de la mina.',
  callPrice:'<b>Precios por tel\u00e9fono \u00b7 '+A_TEL+'</b>\nABC da los precios por tel\u00e9fono o en el mostrador. \u00bfLe armo una solicitud de cotizaci\u00f3n?',
  askMat:'\u00a1Claro! \u00bfQu\u00e9 material? D\u00edgame el nombre (como Desert Gold) o el tipo: piedra decorativa, DG, piedra de r\u00edo, arena, tierra\u2026',
@@ -119,7 +123,7 @@ es:{title:'ABC Sand & Rock',ph:'Pregunte por piedra, precios, entregas\u2026',se
  qDone:'Aqu\u00ed est\u00e1 su solicitud de cotizaci\u00f3n en espa\u00f1ol y en ingl\u00e9s. <b>Esta vista previa no env\u00eda nada</b>; la versi\u00f3n real la mandar\u00eda directo al correo o al tablero de despacho de ABC.',
  copy:'Copiar',copied:'Copiado \u2713',call:'Llamar a ABC',pickup:'Recoger en la yarda de Phoenix',tbd:'por confirmar',
  thanks:'\u00a1Con mucho gusto! \u00bfAlgo m\u00e1s en que le pueda ayudar?',
- fallback:'Buena pregunta, pero no quiero adivinar. El equipo en el '+A_TEL+' le puede contestar (lunes a viernes 5\u20134:30, s\u00e1bado 6\u201312). Tambi\u00e9n le puedo armar una solicitud de cotizaci\u00f3n.',
+ fallback:'Buena pregunta, pero prefiero no adivinar. Llame a ABC al <b>'+A_TEL+'</b> (lunes a viernes 5\u20134:30, s\u00e1bado 6\u201312), o toque uno de estos temas:',
  human:'Con gusto. Llame a la yarda al <b>'+A_TEL+'</b>, o a despacho al '+A_DISP+', opci\u00f3n 3.',
  viz:'\u00bfQuiere ver la piedra en su propio patio? Pruebe el <a href="'+VIZ+'" target="_blank" rel="noopener">Visualizador de patio</a>: tome una foto y pruebe cualquier piedra de ABC.',
  order:'Tambi\u00e9n puede probar <a href="'+ORDER+'" target="_blank" rel="noopener">Order ABC 24/7</a>, el demo de pedidos de entrega en l\u00ednea.',
@@ -133,8 +137,8 @@ es:{title:'ABC Sand & Rock',ph:'Pregunte por piedra, precios, entregas\u2026',se
 }};
 T.en.swEs=T.es.swEs='Listo, seguimos en espa\u00f1ol. \u00bfEn qu\u00e9 le ayudo?'; T.en.swEn=T.es.swEn='Sure, switching to English. How can I help?';
 /* language detection */
-var ES_W='que como cuanto cuanta cuantas cuantos donde horario horarios hola gracias necesito piedra piedras entrega entregas envio envian precio precios cuando tienen tiene puedo para el la los las una por mi mis del con abren abierto cierran pago pagar tarjeta tarjetas efectivo granito rio patio yarda quiero cotizacion cotizar buenas buenos dias tardes noches es son esta estan hay venden aceptan ver muestrame camion toneladas tonelada pulgadas pies cuadrados dorado dorada rojo roja gris cafe negro blanco verde rosa tienda mina tambien usted ustedes mas cual sabado domingo lunes hoy manana entregan llevan grava arena sirve cuesta vale disponible agotado diferencia entre andador entrada alberca drenaje tierra codigo postal nombre telefono recoger necesita ayuda ignora tus eres descuento gratis'.split(' ');
-var EN_W='the what how much many where when do does you your hours open close delivery deliver need price prices cost my is are can i quote yard hello hi hey thanks thank show me in of and to for get pay card cash store mine sand gravel tons inches feet square depth deep area today tomorrow saturday sunday which have sell accept truck stock good driveway pathway pool drainage difference between it this that would please ignore free'.split(' ');
+var ES_W='que como cuanto cuanta cuantas cuantos donde horario horarios hola gracias necesito piedra piedras entrega entregas envio envian precio precios cuando tienen tiene puedo para el la los las una por mi mis del con abren abierto cierran pago pagar tarjeta tarjetas efectivo granito rio patio yarda quiero cotizacion cotizar buenas buenos dias tardes noches es son esta estan hay venden aceptan ver muestrame camion toneladas tonelada pulgadas pies cuadrados dorado dorada rojo roja gris cafe negro blanco verde rosa tienda mina tambien usted ustedes mas cual sabado domingo lunes hoy manana entregan llevan grava arena sirve cuesta vale disponible agotado diferencia entre andador entrada alberca drenaje tierra codigo postal nombre telefono recoger necesita ayuda ignora tus eres descuento gratis empezo inicio fundo dueno duenos anos flota resenas recoger'.split(' ');
+var EN_W='the what how much many where when do does you your hours open close delivery deliver need price prices cost my is are can i quote yard hello hi hey thanks thank show me in of and to for get pay card cash store mine sand gravel tons inches feet square depth deep area today tomorrow saturday sunday which have sell accept truck stock good driveway pathway pool drainage difference between it this that would please ignore free started start founded owns owned business history fleet reviews backyard'.split(' ');
 function detect(text,cur){ var n=norm(text), toks=n.split(' '), es=0, en=0; toks.forEach(function(t){ if(ES_W.indexOf(t)>=0) es++; if(EN_W.indexOf(t)>=0) en++; });
   if(/[\u00bf\u00a1\u00f1\u00e1\u00e9\u00ed\u00f3\u00fa]/i.test(text)) es+=1.5; if(es===en||es+en<1) return cur; return es>en?'es':'en'; }
 
@@ -146,15 +150,17 @@ function has(n,toks,kw){ if(kw.indexOf(' ')>=0) return (' '+n+' ').indexOf(' '+k
 var INTENTS={
  greet:['hi','hello','hey','hola','buenas','buenos dias','buenas tardes','good morning','good afternoon'],
  thanks:['thanks','thank you','gracias','thx','perfect','perfecto','awesome'],
- hours:['hours','open','opening','close','closing','closed','horario','horarios','abren','abierto','cierran','cerrado','what time','a que hora','que hora','sunday','domingo'],
+ hours:['hours','when do you open','are you open','open today','open sunday','opening hours','close','closing','closed','horario','horarios','abren','abierto','cierran','cerrado','what time','a que hora','que hora','sunday','domingo'],
  where:['where','address','location','located','directions','direccion','donde','ubicacion','ubicados','phone number','telefono','glendale','27th'],
  delivery:['delivery','deliver','delivered','deliveries','ship','truck','next day','windows','window','entrega','entregas','entregan','envio','envian','llevan','domicilio','camion','troca','dump','dispatch','despacho'],
  pay:['pay','payment','card','cards','credit','cash','visa','prepay','pago','pagar','tarjeta','tarjetas','credito','efectivo','aceptan'],
- retail:['retail','bagged','bag','bags','counter','cement','mortar mix','lime','tienda','bolsa','bolsas','mostrador','cemento'],
+ retail:['retail','bagged','bag','bags','counter','cement','mortar mix','lime','pick up','pickup','tienda','bolsa','bolsas','mostrador','cemento','recoger'],
  mine:['mine','mining','scale house','scale ticket','mina','bascula'],
  price:['price','prices','pricing','priced','cost','costs','how much is','how much are','how much does','how much for','how much would','how much to','cheap','fee','fees','charge','precio','precios','cuanto cuesta','cuanto cuestan','cuanto vale','cuanto sale','cuanto cobran','costo','cobran','barato','tarifa'],
  stock:['in stock','stock','available','availability','do you have','do you carry','inventory','sold out','out of stock','disponible','disponibles','existencia','existencias','inventario','agotado','tienen','hay'],
- about:['about','history','family','owner','company','who are','historia','familia','empresa','desde cuando','quienes'],
+ about:['about','history','family','family owned','owner','owns','owned','company','who are','started','start','founded','founding','when did you open','when did abc open','how long','in business','years','generation','1974','enterprises','historia','familia','empresa','desde cuando','quienes','empezo','inicio','fundo','dueno','duenos','cuando abrio','cuando abrieron','cuantos anos'],
+ fleet:['fleet','trucks','truck sizes','how big','bobtail','super 18','simple 16','flota','camiones'],
+ reviews:['reviews','review','rating','stars','google reviews','resenas','resena','calificacion','estrellas'],
  compare:['vs','versus','difference','differences','compare','comparison','which is better','better','diferencia','diferencias','comparar','cual es mejor','mejor'],
  calc:['how much do i need','how much rock','how many tons','how much material','calculate','calculator','cubic yard','cuanto necesito','cuanta piedra','cuantas toneladas','calcular','calculadora','yardas cubicas','tons do i need','how much will i need','how much should i','necesito'],
  quote:['quote','get a quote','estimate request','order','buy','purchase','cotizacion','cotizar','pedido','comprar','ordenar'],
@@ -175,6 +181,7 @@ var INTENTS={
  firepit:['fire pit','firepit','fireplace','fogata','fogon'],
  planting:['garden','planting','plants','lawn','jardin','plantas','sembrar','cesped','pasto'],
  pavers:['paver','pavers','adoquin','adoquines'],
+ backyard:['backyard','back yard','front yard','my yard','landscaping','landscape','xeriscape','patio trasero','jardin','patio'],
  concrete:['concrete','slab','footing','concreto','losa','colar']
 };
 var CTYPES=[[['decomposed granite','granito descompuesto','dg','granito'],'dg'],[['river rock','piedra de rio','pea gravel','canto rodado','boleo','river'],'river'],[['decorative stone','decorative rock','piedra decorativa','decorative','decorativa','landscape rock','yard rock'],'stone'],[['sand','arena'],'sand'],[['concrete mix','mezcla de concreto','mezcla'],'mix'],[['fill dirt','top soil','topsoil','tierra','dirt','soil'],'soil'],[['road base','base','abc base','crushed rock','gravel','grava'],'base']];
@@ -277,16 +284,18 @@ var ADVICE={
   firepit:'For fire pit areas, ABC lists many decorative rocks for fire pit surrounds; keep clearance and follow local fire rules.',
   planting:'For planting beds, screened top soil is the base; top-dress with decorative rock or DG around desert plants.',
   pavers:'Under pavers, the usual build is compacted base, then a thin bedding-sand layer to set the pavers on.',
-  concrete:'For small concrete jobs, ABC carries concrete mixes and concrete sand. Confirm mix proportions with the counter team.'},
+  concrete:'For small concrete jobs, ABC carries concrete mixes and concrete sand. Confirm mix proportions with the counter team.',
+  backyard:'For an Arizona yard, screened decorative rock (like Desert Gold, Arizona Blonde or Sedona Red) is the most popular ground cover, with DG for walkways and river rock for drainage or dry creeks.'},
  es:{drainage:'Para drenaje, lo usual es piedra de r\u00edo o piedra #57; deje el DG y los tama\u00f1os "minus" para superficies.',driveway:'Para una entrada de piedra, lo usual es base compactada (como Mag Spec ABC) y encima DG o piedra triturada de 1" o menos.',
   pathway:'Para andadores, el DG es el cl\u00e1sico de Arizona; tambi\u00e9n sirve piedra cribada chica o grava redonda con orilla.',pool:'Junto a la alberca, la piedra de r\u00edo lisa o piedra cribada de 1/2" o m\u00e1s evita que los finos lleguen al agua.',
   pets:'Para \u00e1reas de perros, ABC recomienda muchas de sus piedras decorativas; la piedra lisa o chica es m\u00e1s c\u00f3moda para las patas, y en verano se calienta, as\u00ed que deje sombra.',
   firepit:'Para fogatas, ABC recomienda muchas piedras decorativas alrededor del fog\u00f3n; deje espacio y siga las reglas locales.',
   planting:'Para jardineras, la base es tierra vegetal cribada; arriba, piedra decorativa o DG alrededor de plantas del desierto.',
   pavers:'Bajo adoquines, lo usual es base compactada y luego una capa delgada de arena para asentarlos.',
-  concrete:'Para trabajos chicos de concreto, ABC tiene mezclas de concreto y arena para concreto. Confirme las proporciones en el mostrador.'}
+  concrete:'Para trabajos chicos de concreto, ABC tiene mezclas de concreto y arena para concreto. Confirme las proporciones en el mostrador.',
+  backyard:'Para un patio en Arizona, la piedra decorativa cribada (como Desert Gold, Arizona Blonde o Sedona Red) es lo m\u00e1s usado, con DG para andadores y piedra de r\u00edo para drenaje.'}
 };
-var ADVPICK={drainage:['natural-river-rock','57-rock','1-2-3-4-natural-river-rock'],driveway:['mag-spec-abc','madison-gold-crushed','desert-gold'],pathway:['palomino-gold-crushed','pleasant-gold-dg','3-8-natural-pea-gravel'],pool:['1-2-3-4-natural-river-rock','natural-river-rock','white-marble'],pets:['3-8-natural-pea-gravel','desert-gold','apache-gold'],firepit:['desert-gold','sedona-red','charcoal'],planting:['screened-top-soil','fill-dirt','desert-gold'],pavers:['mag-spec-abc','bedding-sand'],concrete:['concrete-mix','concrete-sand','3-8-concrete-mix']};
+var ADVPICK={drainage:['natural-river-rock','57-rock','1-2-3-4-natural-river-rock'],driveway:['mag-spec-abc','madison-gold-crushed','desert-gold'],pathway:['palomino-gold-crushed','pleasant-gold-dg','3-8-natural-pea-gravel'],pool:['1-2-3-4-natural-river-rock','natural-river-rock','white-marble'],pets:['3-8-natural-pea-gravel','desert-gold','apache-gold'],firepit:['desert-gold','sedona-red','charcoal'],planting:['screened-top-soil','fill-dirt','desert-gold'],pavers:['mag-spec-abc','bedding-sand'],concrete:['concrete-mix','concrete-sand','3-8-concrete-mix'],backyard:['desert-gold','arizona-blonde','sedona-red','pleasant-gold-dg','1-2-3-4-natural-river-rock']};
 /* state + DOM */
 var lang=(function(){ var o=OPT('lang','auto'); if(o==='en'||o==='es') return o; try{ var s=localStorage.getItem(LS_LANG); if(s==='en'||s==='es') return s; }catch(_){} return /^es/i.test(navigator.language||'')?'es':'en'; })();
 var flow=null, lastProd=null, lastCalc=null, built=false, isOpenPanel=false, busy=0, host, root, htmlOverflow='';
@@ -299,8 +308,8 @@ var CSS=":host{all:initial}*{box-sizing:border-box}[hidden]{display:none!importa
 +".teaser{position:fixed;right:92px;bottom:30px;z-index:2147483000;background:var(--paper);color:var(--ink);border:1px solid #e3d6bf;border-radius:14px 14px 4px 14px;padding:10px 36px 10px 14px;font-weight:700;font-size:14.5px;box-shadow:0 10px 30px -10px rgba(0,0,0,.35);cursor:pointer;white-space:nowrap;animation:pop .35s ease-out}"
 +".teaser .x{position:absolute;right:4px;top:50%;transform:translateY(-50%);border:0;background:transparent;font-size:18px;color:var(--muted);cursor:pointer;width:30px;height:30px;border-radius:50%}"
 +"@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}"
-+".panel{position:fixed;right:20px;bottom:20px;z-index:2147483001;width:400px;height:min(690px,calc(100vh - 40px));background:var(--paper);border-radius:20px;box-shadow:0 30px 80px -20px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.06);display:flex;flex-direction:column;overflow:hidden;animation:pop .22s ease-out}"
-+"@media (max-width:600px){.panel{left:0!important;right:0;top:0;bottom:0;width:100%;height:100%;border-radius:0}.teaser{bottom:28px;right:86px;font-size:13.5px}.fab{right:16px;bottom:16px}}"
++".panel{position:fixed;right:20px;bottom:20px;z-index:2147483001;width:400px;height:min(690px,calc(100vh - 40px));height:min(690px,calc(100dvh - 40px));background:var(--paper);border-radius:20px;box-shadow:0 30px 80px -20px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.06);display:flex;flex-direction:column;overflow:hidden;animation:pop .22s ease-out}"
++"@media (max-width:600px){.panel{left:0!important;right:0;top:0;bottom:auto;width:100%;height:100vh;height:100dvh;border-radius:0}.teaser{bottom:28px;right:86px;font-size:13.5px}.fab{right:16px;bottom:16px}}"
 +".hd{background:var(--navy);color:var(--paper);padding:12px 10px 10px 14px;display:flex;align-items:center;gap:9px;flex:0 0 auto;padding-top:max(12px,env(safe-area-inset-top))}"
 +".av{width:40px;height:40px;border-radius:12px;background:var(--navy3);border:1px solid var(--line);display:grid;place-items:center;flex:0 0 auto}.av svg{width:26px;height:26px}"
 +".ht{flex:1;min-width:0}.ht b{display:block;font-family:Georgia,'Times New Roman',serif;font-size:16.5px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ht small{display:flex;align-items:flex-start;gap:6px;font-size:11.5px;line-height:1.3;color:#B9C3D0}.ht small .st{margin-top:4px}"
@@ -356,11 +365,21 @@ function build(){ built=true;
   var p=document.createElement('div'); p.className='panel'; p.id='abc-panel'; p.setAttribute('role','dialog'); p.setAttribute('aria-modal','false'); p.setAttribute('aria-labelledby','abc-t'); p.hidden=true;
   p.innerHTML='<div class="hd"><div class="av">'+ICON_ROCK+'</div><div class="ht"><b id="abc-t"></b><small></small></div><div class="lg" role="group" aria-label="Language / Idioma"><button type="button" data-l="en" lang="en">EN</button><button type="button" data-l="es" lang="es">ES</button></div><button type="button" class="xb">\u00d7</button></div>'
    +'<div class="log" role="log" aria-live="polite"></div><div class="chips" role="group"></div>'
-   +'<form class="in"><label class="sr" for="abc-in">Message</label><input id="abc-in" autocomplete="off" enterkeyhint="send" maxlength="400"><button type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8l-6 16l-2-6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></form><div class="ft"></div>';
+   +'<form class="in" action="javascript:void(0)"><label class="sr" for="abc-in">Message</label><input id="abc-in" type="text" autocomplete="off" autocorrect="on" autocapitalize="sentences" enterkeyhint="send" maxlength="400"><button type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8l-6 16l-2-6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></form><div class="ft"></div>';
   q('.w').appendChild(p);
   p.querySelectorAll('[data-l]').forEach(function(b){ b.onclick=function(){ setLang(b.getAttribute('data-l'),true); }; });
   q('.xb').onclick=close;
-  q('form.in').onsubmit=function(e){ e.preventDefault(); var i=q('#abc-in'); var v=i.value.trim(); if(!v) return; i.value=''; send(v); };
+  var inp=q('#abc-in'), sb=q('.in button'), compEnter=false, tx=0, ty=0, moved=false;
+  function submitForm(){ if(!inp||inp.disabled) return; var v=inp.value.trim(); if(!v) return; inp.value=''; send(v); }
+  q('form.in').addEventListener('submit',function(e){ e.preventDefault(); submitForm(); });
+  inp.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.keyCode===13){ if(e.shiftKey) return; if(e.isComposing||e.keyCode===229){ compEnter=true; return; } e.preventDefault(); submitForm(); } });
+  inp.addEventListener('compositionend',function(){ if(compEnter){ compEnter=false; setTimeout(submitForm,0); } });
+  sb.addEventListener('mousedown',function(e){ e.preventDefault(); });
+  sb.addEventListener('touchstart',function(e){ var t=e.touches&&e.touches[0]; if(t){ tx=t.clientX; ty=t.clientY; } moved=false; },{passive:true});
+  sb.addEventListener('touchmove',function(e){ var t=e.touches&&e.touches[0]; if(t&&(Math.abs(t.clientX-tx)>10||Math.abs(t.clientY-ty)>10)) moved=true; },{passive:true});
+  sb.addEventListener('touchend',function(e){ if(!moved){ e.preventDefault(); submitForm(); } });
+  if(window.visualViewport){ window.visualViewport.addEventListener('resize',syncVP); window.visualViewport.addEventListener('scroll',syncVP); }
+  window.addEventListener('resize',syncVP);
   p.addEventListener('keydown',function(e){ if(e.key==='Escape'){ e.preventDefault(); close(); return; }
     if(e.key==='Tab'){ var f=[].slice.call(p.querySelectorAll('button,a[href],input')).filter(function(x){return !x.disabled&&x.getClientRects().length;}); if(!f.length) return; var a=root.activeElement; if(e.shiftKey&&a===f[0]){ e.preventDefault(); f[f.length-1].focus(); } else if(!e.shiftKey&&a===f[f.length-1]){ e.preventDefault(); f[0].focus(); } } });
   applyLang();
@@ -376,12 +395,15 @@ function applyLang(){ var t=L(); q('#abc-t').textContent=t.title; setStatusDot()
   t.chips.forEach(function(x){ var b=document.createElement('button'); b.type='button'; b.className='chip'+(x[0]==='lang'?' lang':''); b.textContent=x[1]; b.setAttribute('data-k',x[0]);
     b.onclick=function(){ if(x[0]==='lang') return setLang(lang==='es'?'en':'es',true); send(x[1],x[0]); }; c.appendChild(b); }); }
 function setLang(l,announce){ if(l!=='en'&&l!=='es') return; var ch=l!==lang; lang=l; try{localStorage.setItem(LS_LANG,l);}catch(_){} if(!built) return; applyLang(); if(announce&&ch) bot(l==='es'?T.es.swEs:T.en.swEn); }
+function syncVP(){ if(!built||!isOpenPanel) return; var p=q('.panel'); if(!p) return;
+  if(window.matchMedia('(max-width:600px)').matches&&window.visualViewport){ var vv=window.visualViewport; p.style.height=Math.round(vv.height)+'px'; p.style.top=Math.round(vv.offsetTop)+'px'; scroll(); }
+  else { p.style.height=''; p.style.top=''; } }
 function open(question){ if(!root) return; if(!built) build(); var p=q('.panel'); if(!isOpenPanel){ p.hidden=false; isOpenPanel=true; var f=q('.fab'); f.setAttribute('aria-expanded','true'); f.hidden=true; var t=q('.teaser'); if(t) t.remove();
     if(window.matchMedia('(max-width:600px)').matches){ htmlOverflow=document.documentElement.style.overflow; document.documentElement.style.overflow='hidden'; } }
-  setStatusDot(); scroll();
+  syncVP(); setStatusDot(); scroll();
   if(question&&!closedPreview()) send(String(question));
   setTimeout(function(){ var i=q('#abc-in'); if(i&&!i.disabled&&!window.matchMedia('(pointer:coarse)').matches) i.focus(); else q('.xb').focus(); },60); }
-function close(){ if(!built||!isOpenPanel) return; q('.panel').hidden=true; isOpenPanel=false; var f=q('.fab'); f.hidden=false; f.setAttribute('aria-expanded','false'); document.documentElement.style.overflow=htmlOverflow; f.focus(); }
+function close(){ if(!built||!isOpenPanel) return; var p=q('.panel'); p.hidden=true; p.style.height=''; p.style.top=''; isOpenPanel=false; var f=q('.fab'); f.hidden=false; f.setAttribute('aria-expanded','false'); document.documentElement.style.overflow=htmlOverflow; f.focus(); }
 function log(){ return q('.log'); }
 function scroll(){ var l=log(); if(l) l.scrollTop=l.scrollHeight; }
 function me(t){ var d=document.createElement('div'); d.className='m me'; d.textContent=t; log().appendChild(d); scroll(); }
@@ -389,9 +411,9 @@ function bot(html,extra){ var d=document.createElement('div'); d.className='m bo
 function opts(list){ var w=document.createElement('div'); w.className='opts'; list.forEach(function(o){ var b=document.createElement('button'); b.type='button'; b.className='opt'; b.textContent=o[0]; b.onclick=function(){ send(o[0],o[1]); }; w.appendChild(b); }); return w; }
 function reply(fn){ busy++; var ty=document.createElement('div'); ty.className='typing'; ty.setAttribute('aria-hidden','true'); ty.innerHTML='<i></i><i></i><i></i>'; log().appendChild(ty); scroll();
   setTimeout(function(){ ty.remove(); busy--; try{ fn(); }catch(e){ bot(L().fallback); if(window.console) console.warn('[ABC chat]',e); } scroll(); }, 300+Math.random()*250); }
-function send(text,key){ if(!built) build(); if(closedPreview()) return; me(text);
-  if(!key){ var l=detect(text,lang); var numeric=/^[\d\s\.,x"#\-()+]+$/.test(text.trim()); if(l!==lang&&!numeric&&!(flow&&flow.need==='name')) setLang(l,false); }
-  reply(function(){ handle(text,key); }); }
+function send(text,key){ try{ if(!built) build(); if(closedPreview()) return; var msg=String(text==null?'':text).trim(); if(!msg) return; me(msg);
+  if(!key){ var l=detect(msg,lang); var numeric=/^[\d\s\.,x"#\-()+]+$/.test(msg); if(l!==lang&&!numeric&&!(flow&&flow.need==='name')) setLang(l,false); }
+  reply(function(){ handle(msg,key); }); }catch(e){ try{ bot(L().fallback); }catch(_){} if(window.console) console.warn('[ABC chat]',e); } }
 /* renderers */
 function imgUrl(p){ return BASE+'img/p/'+p.id+'.jpg'; }
 function stockPill(s){ return '<span class="pill s-'+esc(s)+'">'+esc(STOCK[lang][s]||s)+'</span>'; }
@@ -555,6 +577,7 @@ function handle(text,key){
   var g=key?null:guardCheck(text);
   if(g){ flow=null; return bot(t.guard[g],opts(l==='es'?[['Productos','products'],['\u00bfCu\u00e1nto necesito?','calc']]:[['Products','products'],['How much do I need?','calc']])); }
   if(key){
+    if(key==='about') return bot(t.about);
     if(key==='products') return categories();
     if(key==='calc'){ flow={k:'calc',c:{}}; if(lastProd){ flow.c={mat:lastProd.n,prod:lastProd,dk:lastProd.d}; flow.need='area'; return bot((l==='es'?'Con <b>'+esc(lastProd.n)+'</b>. ':'Using <b>'+esc(lastProd.n)+'</b>. ')+t.askArea); } flow.need='mat'; return bot(t.askMat); }
     if(key==='delivery') return bot(t.delivery); if(key==='hours') return bot(t.hours()); if(key==='hourswhere') return bot(t.hours()+'\n\n'+t.where);
@@ -600,25 +623,30 @@ function handle(text,key){
     if(tons==null&&lastCalc&&ctxP&&lastCalc.prod===ctxP&&/\b(that|this|eso|esto)\b/.test(n)) tons=lastCalc.tons;
     if(cfg().mode!=='example') return priceAnswer(null);
     if(ctxP) return priceAnswer(ctxP,tons,zip,pickup);
-    if(type) return bot((l==='es'?'Los precios van por piedra. Estas son algunas de '+esc(CAT[l][type])+'; toque una o d\u00edgame el nombre:':'Prices go by the specific rock. Here are some '+esc(CAT[l][type])+'; tap one or tell me the name:'),cards(P.filter(function(x){return x.c===type;})));
+    if(type){ var plist=type==='base'&&/\bgrava\b/.test(n)?['3-8-natural-pea-gravel','57-rock','1-4-crushed','mag-spec-abc','desert-gold'].map(function(id){return PBY[id];}).filter(Boolean):P.filter(function(x){return x.c===type;});
+      return bot((l==='es'?'Los precios van por piedra. Estas son algunas opciones; toque una o d\u00edgame el nombre:':'Prices go by the specific rock. Here are some '+esc(CAT[l][type])+'; tap one or tell me the name:'),cards(plist)); }
     return bot(l==='es'?'\u00bfDe qu\u00e9 material quiere el precio? (ej. \u201cprecio de Desert Gold\u201d)':'Which material would you like priced? (e.g. \u201cprice of Desert Gold\u201d)'); }
   if(sc.stock&&ctxP&&!sc.delivery&&!sc.hours) return stockAnswer(ctxP);
   if(ctxP&&!sc.calc&&!sc.quote&&!(parseArea(n))){ var foc=TOPICS.filter(function(k){return sc[k];})[0]||(sc.coverage?'coverage':sc.weight?'weight':sc.sizes?'sizes':sc.colors?'colors':null); return infoAnswer(ctxP,foc); }
   if(sc.quote&&!sc.calc) return startQuote(n,toks);
   if(sc.calc||(parseArea(n)&&(p||type||lastProd))){ var cc={}; var m2=matFrom(n,toks)||(lastProd?{mat:lastProd.n,prod:lastProd,dk:lastProd.d}:null); if(m2){cc.mat=m2.mat;cc.prod=m2.prod;cc.dk=m2.dk;} var aa=parseArea(n); if(aa) cc.area=aa; var dd=parseDepth(n); if(dd) cc.depth=dd;
-    flow={k:'calc',c:cc}; if(cc.mat&&cc.area&&cc.depth){ flow=null; return calcOut(cc); } if(!cc.mat){flow.need='mat'; return bot(t.askMat);} if(!cc.area){flow.need='area'; return bot((l==='es'?'Con <b>'+esc(cc.mat)+'</b>. ':'Using <b>'+esc(cc.mat)+'</b>. ')+t.askArea);} flow.need='depth'; return bot(t.askDepth); }
-  var adv=['drainage','driveway','pathway','pool','pets','firepit','planting','pavers','concrete'].filter(function(k){return sc[k];})[0];
+    flow={k:'calc',c:cc}; if(cc.mat&&cc.area&&cc.depth){ flow=null; return calcOut(cc); } if(!cc.mat){flow.need='mat'; return bot(cc.area?(l==='es'?'Entendido, <b>'+fmt(cc.area,l)+' pies\u00b2</b>. \u00bfQu\u00e9 material? (ej. Desert Gold, DG, piedra de r\u00edo)':'Got it \u2014 <b>'+fmt(cc.area,l)+' sq ft</b>. Which material? (e.g. Desert Gold, DG, river rock)'):t.askMat);} if(!cc.area){flow.need='area'; return bot((l==='es'?'Con <b>'+esc(cc.mat)+'</b>. ':'Using <b>'+esc(cc.mat)+'</b>. ')+t.askArea);} flow.need='depth'; return bot(t.askDepth); }
+  var adv=['drainage','driveway','pathway','pool','pets','firepit','planting','pavers','concrete','backyard'].filter(function(k){return sc[k];})[0];
   if(adv&&!(sc.hours||sc.where)) return adviceAnswer(adv);
   if(sc.coverage||sc.weight) return bot(l==='es'?'Pesos publicados por ABC (ton/yd\u00b3): arena 1.3 \u00b7 piedra decorativa 1/4"\u20131" 1.4 \u00b7 piedra de r\u00edo 1/4"\u20136" 1.4 \u00b7 piedra de r\u00edo 6"+ 1.1 \u00b7 DG 1.4 \u00b7 mezclas de concreto 1.8 \u00b7 tierra 1.3.\nA 2", una tonelada de piedra (1.4) cubre ~116 pies\u00b2.':'ABC\u2019s published weights (t/yd\u00b3): Sand 1.3 \u00b7 Decorative Stone 1/4"\u20131" 1.4 \u00b7 River Rock 1/4"\u20136" 1.4 \u00b7 River Rock 6"+ 1.1 \u00b7 DG 1.4 \u00b7 Concrete Mixes 1.8 \u00b7 Fill Dirt/Top Soil 1.3.\nAt 2", a ton of rock (1.4) covers ~116 sq ft.');
-  var best=null, bv=0; ['hours','where','delivery','pay','retail','mine','about','products'].forEach(function(k){ if((sc[k]||0)>bv){bv=sc[k];best=k;} });
+  var best=null, bv=0; ['about','fleet','reviews','hours','where','delivery','pay','retail','mine','products'].forEach(function(k){ if((sc[k]||0)>bv){bv=sc[k];best=k;} });
+  if(sc.about&&(/\b(started|start|founded|founding|when did|how long|empezo|inicio|fundo|abrieron|1974|enterprises)\b/.test(n))) best='about';
   if(best==='hours'&&sc.where) return bot(t.hours()+'\n\n'+t.where);
   if(best==='hours') return bot(t.hours());
+  if(best==='delivery'){ var city=text.match(/\b(phoenix|glendale|goodyear|avondale|buckeye|tolleson|peoria|surprise|sun city|mesa|chandler|gilbert|tempe|scottsdale|queen creek|apache junction|fountain hills|cave creek|litchfield(?: park)?|maricopa)\b/i);
+    var pre=city?(l==='es'?'S\u00ed, ABC entrega en '+esc(city[0].replace(/\b\w/g,function(c){return c.toUpperCase();}))+' y en todo el Valle de Phoenix (ABC no publica una lista de ciudades o tarifas por zona en su sitio).\n\n':'Yes \u2014 ABC delivers across Phoenix and the greater Valley, including '+esc(city[0].replace(/\b\w/g,function(c){return c.toUpperCase();}))+' (ABC doesn\u2019t publish a city-by-city zone map online).\n\n'):'';
+    return bot(pre+t.delivery,opts([[l==='es'?'Pedir cotizaci\u00f3n':'Get a quote','quote']])); }
   if(color||type){ var list=P.filter(function(x){ return (!color||color[1](x))&&(!type||x.c===type); }); if(list.length){ var wd=color?color[2][l]:CAT[l][type]; return bot((l==='es'?'Aqu\u00ed tiene '+list.length+' \u00b7 ':'Here are '+list.length+' \u00b7 ')+esc(wd)+(list.length>8?(l==='es'?' (le muestro 8)':' (showing 8)'):'')+':',cards(list)); } }
   if(best==='products') return categories();
   if(best) return bot(typeof t[best]==='function'?t[best]():t[best]);
   if(sc.greet) return bot(t.hello);
   if(sc.thanks) return bot(t.thanks);
-  return bot(t.fallback,opts(l==='es'?[['Hablar con alguien'],['Pedir cotizaci\u00f3n','quote']]:[['Talk to a person'],['Get a quote','quote']]));
+  return bot(t.fallback,opts(l==='es'?[['Sobre ABC','about'],['Productos','products'],['\u00bfCu\u00e1nto necesito?','calc'],['Entregas','delivery'],['Horario y ubicaci\u00f3n','hourswhere'],['Pedir cotizaci\u00f3n','quote']]:[['About ABC','about'],['Products','products'],['How much do I need?','calc'],['Delivery','delivery'],['Hours & location','hourswhere'],['Get a quote','quote']]));
 }
 
 /* public API */

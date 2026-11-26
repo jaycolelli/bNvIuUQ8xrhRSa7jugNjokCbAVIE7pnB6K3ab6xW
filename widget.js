@@ -618,7 +618,7 @@ function handle(text,key){
     if(ents.length>=2){ var A=ents[0], B=ents[1]; if(!(A.t&&B.t&&A.t===B.t)&&!(A.p&&B.p&&A.p.id===B.p.id)) return compare(A,B); } }
   var askAbout=sc.price||sc.stock||sc.sizes||sc.colors||sc.weight||sc.coverage||sc.uses||TOPICS.some(function(k){return sc[k];});
   var pron=/\b(it|its|this|that|they|them|eso|esto|esta|este|esa|ese)\b/.test(n)||/^(what|how) about\b|^and\b|^y\b|^que tal\b|^y para\b/.test(n), whatQ=/\b(what|which|best|que|cual|cuales|mejor|recommend|recomienda)\b/.test(n);
-  var ctxP=p||(askAbout&&lastProd&&!type&&(pron||(!whatQ&&n.split(' ').length<=5))?lastProd:null);
+  var ctxP=p||(askAbout&&lastProd&&!type&&!color&&(pron||(!whatQ&&n.split(' ').length<=5))?lastProd:null);
   if((sc.price&&!((sc.weight||sc.coverage)&&!/price|cost|precio|cuesta|vale/.test(n)))||/\$/.test(text)){ var tons=parseTons(n), zip=parseZip(text), pickup=/pick(ed)? ?up|recoger|recogido|recojo|lo recojo/.test(n);
     if(tons==null&&lastCalc&&ctxP&&lastCalc.prod===ctxP&&/\b(that|this|eso|esto)\b/.test(n)) tons=lastCalc.tons;
     if(cfg().mode!=='example') return priceAnswer(null);
@@ -631,6 +631,7 @@ function handle(text,key){
   if(sc.quote&&!sc.calc) return startQuote(n,toks);
   if(sc.calc||(parseArea(n)&&(p||type||lastProd))){ var cc={}; var m2=matFrom(n,toks)||(lastProd?{mat:lastProd.n,prod:lastProd,dk:lastProd.d}:null); if(m2){cc.mat=m2.mat;cc.prod=m2.prod;cc.dk=m2.dk;} var aa=parseArea(n); if(aa) cc.area=aa; var dd=parseDepth(n); if(dd) cc.depth=dd;
     flow={k:'calc',c:cc}; if(cc.mat&&cc.area&&cc.depth){ flow=null; return calcOut(cc); } if(!cc.mat){flow.need='mat'; return bot(cc.area?(l==='es'?'Entendido, <b>'+fmt(cc.area,l)+' pies\u00b2</b>. \u00bfQu\u00e9 material? (ej. Desert Gold, DG, piedra de r\u00edo)':'Got it \u2014 <b>'+fmt(cc.area,l)+' sq ft</b>. Which material? (e.g. Desert Gold, DG, river rock)'):t.askMat);} if(!cc.area){flow.need='area'; return bot((l==='es'?'Con <b>'+esc(cc.mat)+'</b>. ':'Using <b>'+esc(cc.mat)+'</b>. ')+t.askArea);} flow.need='depth'; return bot(t.askDepth); }
+  if(/artificial|synthetic|sintetic|fake grass|firewood|lena|mulch|bark|sod/.test(n)) return bot(t.fallback,opts(l==='es'?[['Sobre ABC','about'],['Productos','products'],['\u00bfCu\u00e1nto necesito?','calc'],['Entregas','delivery'],['Horario y ubicaci\u00f3n','hourswhere'],['Pedir cotizaci\u00f3n','quote']]:[['About ABC','about'],['Products','products'],['How much do I need?','calc'],['Delivery','delivery'],['Hours & location','hourswhere'],['Get a quote','quote']]));
   var adv=['drainage','driveway','pathway','pool','pets','firepit','planting','pavers','concrete','backyard'].filter(function(k){return sc[k];})[0];
   if(adv&&!(sc.hours||sc.where)) return adviceAnswer(adv);
   if(sc.coverage||sc.weight) return bot(l==='es'?'Pesos publicados por ABC (ton/yd\u00b3): arena 1.3 \u00b7 piedra decorativa 1/4"\u20131" 1.4 \u00b7 piedra de r\u00edo 1/4"\u20136" 1.4 \u00b7 piedra de r\u00edo 6"+ 1.1 \u00b7 DG 1.4 \u00b7 mezclas de concreto 1.8 \u00b7 tierra 1.3.\nA 2", una tonelada de piedra (1.4) cubre ~116 pies\u00b2.':'ABC\u2019s published weights (t/yd\u00b3): Sand 1.3 \u00b7 Decorative Stone 1/4"\u20131" 1.4 \u00b7 River Rock 1/4"\u20136" 1.4 \u00b7 River Rock 6"+ 1.1 \u00b7 DG 1.4 \u00b7 Concrete Mixes 1.8 \u00b7 Fill Dirt/Top Soil 1.3.\nAt 2", a ton of rock (1.4) covers ~116 sq ft.');

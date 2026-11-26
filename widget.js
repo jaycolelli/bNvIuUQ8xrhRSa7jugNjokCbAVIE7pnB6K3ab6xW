@@ -158,7 +158,7 @@ var INTENTS={
  compare:['vs','versus','difference','differences','compare','comparison','which is better','better','diferencia','diferencias','comparar','cual es mejor','mejor'],
  calc:['how much do i need','how much rock','how many tons','how much material','calculate','calculator','cubic yard','cuanto necesito','cuanta piedra','cuantas toneladas','calcular','calculadora','yardas cubicas','tons do i need','how much will i need','how much should i','necesito'],
  quote:['quote','get a quote','estimate request','order','buy','purchase','cotizacion','cotizar','pedido','comprar','ordenar'],
- products:['products','product','what do you sell','what do you have','catalog','categories','materials','productos','que venden','catalogo','categorias','materiales','options','opciones'],
+ products:['products','product','what rock','what rocks','what kind of rock','types of rock','what do you carry','que piedras','que tipo de piedra','tipos de piedra','what do you sell','what do you have','catalog','categories','materials','productos','que venden','catalogo','categorias','materiales','options','opciones'],
  human:['human','real person','agent','representative','someone','talk to','speak to','a person','persona','alguien','hablar con','representante'],
  viz:['visualizer','in my yard','see it','how will it look','how would it look','visualizador','en mi patio','como se ve','como se veria'],
  order247:['order online','online order','order 24','24/7','pedido en linea','ordenar en linea','order abc'],
@@ -517,7 +517,7 @@ function startQuote(n,toks){ var qq={}; var m=n&&matFrom(n,toks); if(!m&&lastCal
 function nextQuote(){ var qq=flow.q, t=L(), l=lang;
   if(!qq.mat){ flow.need='mat'; return bot(t.qMat,opts([['Desert Gold'],[CAT[l].dg],[CAT[l].river]])); }
   if(qq.tons==null&&!qq.qtySkip){ flow.need='qty'; return bot((qq.mat?'<b>'+esc(qq.mat)+'</b>. ':'')+t.qQty); }
-  if(!qq.zip&&!qq.pickup&&!qq.zipSkip){ flow.need='zip'; return bot(t.qZip,opts([[l==='es'?'recoger':'pickup']])); }
+  if(!qq.zip&&!qq.pickup&&!qq.zipSkip){ flow.need='zip'; return bot('<b>'+esc(qq.mat)+(qq.tons!=null?' \u00b7 '+fmt(qq.tons,l,2)+(l==='es'?' toneladas':' tons'):'')+'</b>. '+t.qZip,opts([[l==='es'?'recoger':'pickup']])); }
   if(!qq.date&&!qq.dateIso&&!qq.dateSkip){ flow.need='date'; return bot(t.qDate,dayOpts()); }
   if(!qq.win&&!qq.winSkip&&!qq.pickup){ var ws=qq.dateIso?winsFor(qq.dateIso):['w1','w2','w3']; flow.need='win'; return bot(t.qWin(qq.dateIso?fmtDay(qq.dateIso,l):qq.date||''),opts(ws.map(function(w){return [WIN[l][w],'win:'+w];}))); }
   if(!qq.name&&!qq.nameSkip){ flow.need='name'; return bot(t.qName); }
@@ -594,9 +594,9 @@ function handle(text,key){
     n.split(/\b(?:vs\.?|versus|or|and|compared to|compared with|contra|y|o|entre)\b/).map(function(s){return s.trim();}).filter(Boolean).forEach(function(s){ var ps=findProducts(s); if(ps.length) ents.push({p:ps[0]}); else { var ty=findType(s,s.split(' ')); if(ty) ents.push({t:ty}); } });
     if(ents.length>=2){ var A=ents[0], B=ents[1]; if(!(A.t&&B.t&&A.t===B.t)&&!(A.p&&B.p&&A.p.id===B.p.id)) return compare(A,B); } }
   var askAbout=sc.price||sc.stock||sc.sizes||sc.colors||sc.weight||sc.coverage||sc.uses||TOPICS.some(function(k){return sc[k];});
-  var pron=/\b(it|its|this|that|they|them|eso|esto|esta|este|esa|ese)\b/.test(n), whatQ=/\b(what|which|best|que|cual|cuales|mejor|recommend|recomienda)\b/.test(n);
+  var pron=/\b(it|its|this|that|they|them|eso|esto|esta|este|esa|ese)\b/.test(n)||/^(what|how) about\b|^and\b|^y\b|^que tal\b|^y para\b/.test(n), whatQ=/\b(what|which|best|que|cual|cuales|mejor|recommend|recomienda)\b/.test(n);
   var ctxP=p||(askAbout&&lastProd&&!type&&(pron||(!whatQ&&n.split(' ').length<=5))?lastProd:null);
-  if(sc.price||/\$/.test(text)){ var tons=parseTons(n), zip=parseZip(text), pickup=/pick(ed)? ?up|recoger|recogido|recojo|lo recojo/.test(n);
+  if((sc.price&&!((sc.weight||sc.coverage)&&!/price|cost|precio|cuesta|vale/.test(n)))||/\$/.test(text)){ var tons=parseTons(n), zip=parseZip(text), pickup=/pick(ed)? ?up|recoger|recogido|recojo|lo recojo/.test(n);
     if(tons==null&&lastCalc&&ctxP&&lastCalc.prod===ctxP&&/\b(that|this|eso|esto)\b/.test(n)) tons=lastCalc.tons;
     if(cfg().mode!=='example') return priceAnswer(null);
     if(ctxP) return priceAnswer(ctxP,tons,zip,pickup);

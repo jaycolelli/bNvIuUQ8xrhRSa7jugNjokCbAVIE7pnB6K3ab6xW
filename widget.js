@@ -415,7 +415,7 @@ function calcChip(){ return [lang==='es'?'\u00bfCu\u00e1nto necesito?':'How much
 
 /* answers */
 function calcOut(c){ var t=DENS[c.dk]||1.4, l=lang; var cuft=c.area*c.depth/12, yd=r2(cuft/27), tons=r2(yd*t);
-  lastCalc={mat:c.mat,prod:c.prod,dk:c.dk,area:c.area,depth:c.depth,yd:yd,tons:tons};
+  lastCalc={mat:c.mat,prod:c.prod,dk:c.dk,area:c.area,depth:c.depth,yd:yd,tons:tons}; if(c.prod) lastProd=c.prod;
   var math=fmt(c.area,l)+' '+(l==='es'?'pies\u00b2':'sq ft')+' \u00d7 '+fmt(c.depth,l)+'" \u00f7 12 = '+fmt(cuft,l,2)+' '+(l==='es'?'pies\u00b3':'cu ft')+'\n'+fmt(cuft,l,2)+' \u00f7 27 = '+fmt(yd,l,2)+' '+(l==='es'?'yd\u00b3':'cu yd')+'\n'+fmt(yd,l,2)+' \u00d7 '+t+' '+(l==='es'?'ton/yd\u00b3':'t/yd\u00b3')+' = '+fmt(tons,l,2)+' '+(l==='es'?'toneladas':'tons');
   var loads=Math.ceil(tons/24), note;
   if(l==='es') note=tons<1?'Es menos del m\u00ednimo de entrega de 1 tonelada; puede pedir 1 tonelada o recogerlo en la yarda de Phoenix.':tons>24?'\u26a0\ufe0f Son m\u00e1s de 24 toneladas, as\u00ed que van en <b>'+loads+' cargas</b> (hasta 24 toneladas por cami\u00f3n).':'Cabe en un solo cami\u00f3n.';
@@ -510,7 +510,7 @@ function categories(){ var l=lang, counts={}; P.forEach(function(p){counts[p.c]=
 function listCat(k){ var list=P.filter(function(p){return p.c===k;}); return bot((lang==='es'?'Aqu\u00ed tiene ':'Here are ')+list.length+' \u00b7 '+esc(CAT[lang][k])+(list.length>8?(lang==='es'?' (le muestro 8; pida un color)':' (showing 8; ask for a color)'):'')+':',cards(list)); }
 /* quote flow */
 function dayOpts(){ return opts(nextDeliveryDays(4).map(function(s){ return [fmtDay(s,lang),'date:'+s]; })); }
-function startQuote(n,toks){ var qq={}; var m=n&&matFrom(n,toks); if(!m&&lastCalc) m={mat:lastCalc.mat,prod:lastCalc.prod}; if(!m&&lastProd) m={mat:lastProd.n,prod:lastProd}; if(m){ qq.mat=m.mat; qq.prod=m.prod; }
+function startQuote(n,toks){ var qq={}; var m=n&&matFrom(n,toks); if(!m&&lastProd) m={mat:lastProd.n,prod:lastProd}; if(!m&&lastCalc) m={mat:lastCalc.mat,prod:lastCalc.prod}; if(m){ qq.mat=m.mat; qq.prod=m.prod; }
   if(lastCalc&&lastCalc.mat===qq.mat){ qq.tons=lastCalc.tons; qq.area=lastCalc.area; qq.depth=lastCalc.depth; }
   if(n){ var tn=parseTons(n); if(tn) qq.tons=tn; var z=parseZip(n); if(z) qq.zip=z; }
   flow={k:'quote',q:qq}; return nextQuote(); }
